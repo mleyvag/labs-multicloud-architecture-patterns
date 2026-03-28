@@ -1,0 +1,65 @@
+<mxfile host="65bd71144e">
+    <diagram name="Page-1" id="HCefNIays6KkP6PUVcof">
+        <mxGraphModel dx="1229" dy="468" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-42" value="&lt;font style=&quot;color: rgb(26, 26, 26);&quot;&gt;On-Premise&lt;/font&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_on_premise;strokeColor=#1A1A1A;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#AAB7B8;dashed=0;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="80" width="200" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cCzFIhlWxvAnvP9-SPmg-1" target="cCzFIhlWxvAnvP9-SPmg-2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1.005;exitY=0.329;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="cCzFIhlWxvAnvP9-SPmg-1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="480" y="150" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-1" value="&lt;span style=&quot;font-size: 15px;&quot;&gt;&lt;b&gt;Service&lt;br&gt;Payments&lt;/b&gt;&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="130" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-2" value="&lt;span id=&quot;docs-internal-guid-807fda3a-7fff-59c5-8fad-8458cf1623d4&quot;&gt;&lt;span style=&quot;font-size: 11pt; font-family: &amp;quot;Google Sans Text&amp;quot;, sans-serif; color: rgb(31, 31, 31); background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; vertical-align: baseline; white-space-collapse: preserve;&quot;&gt;&lt;b&gt;Service&lt;br/&gt;LegacyCreditValidator&lt;/b&gt;&lt;/span&gt;&lt;/span&gt;" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="480" y="130" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.006;entryY=0.677;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1.013;exitY=0.661;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="cCzFIhlWxvAnvP9-SPmg-1" target="cCzFIhlWxvAnvP9-SPmg-2" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="350" y="170" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-9" value="&lt;b&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;AS IS&lt;/font&gt;&lt;/b&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="40" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-10" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/general/Globe_Error.svg;" parent="1" vertex="1">
+                    <mxGeometry x="404.06" y="102" width="33.94" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-11" value="&lt;span style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;TO BE&lt;/b&gt;&lt;/span&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="210" y="250" width="70" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-49" value="&lt;b&gt;AWS Step Function&lt;br&gt;CircuitBreakerMachine&lt;/b&gt;" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_step_functions_workflow;strokeColor=#CD2264;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#CD2264;dashed=0;" parent="1" vertex="1">
+                    <mxGeometry x="218" y="310" width="220" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-50" value="&lt;b&gt;AWS Lambda&lt;br&gt;Payments&lt;/b&gt;" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="cCzFIhlWxvAnvP9-SPmg-49" vertex="1">
+                    <mxGeometry x="75" y="60" width="70" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-51" value="&lt;b&gt;AWS DynamoDB&lt;br&gt;CircuitStateTable&lt;/b&gt;" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#C925D1;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.dynamodb;" parent="1" vertex="1">
+                    <mxGeometry x="528" y="300" width="70" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cCzFIhlWxvAnvP9-SPmg-50" target="cCzFIhlWxvAnvP9-SPmg-51" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-58" value="&lt;b&gt;AWS Lambda&lt;br&gt;LegacyCreditValidor&lt;/b&gt;" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="1" vertex="1">
+                    <mxGeometry x="528" y="440" width="70" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="cCzFIhlWxvAnvP9-SPmg-50" target="cCzFIhlWxvAnvP9-SPmg-58" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-60" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;b&gt;Simulación Service OnPremise&lt;br&gt;50% de Falla&lt;/b&gt;&lt;/font&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=#36393d;fillColor=#ffff88;align=center;verticalAlign=middle;rounded=1;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="606" y="460" width="154" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="cCzFIhlWxvAnvP9-SPmg-62" value="&lt;ul&gt;&lt;li&gt;&lt;span id=&quot;docs-internal-guid-98620f29-7fff-6ddf-136e-cdaa41ea3ac9&quot;&gt;&lt;span style=&quot;font-family: &amp;quot;Google Sans Text&amp;quot;, sans-serif; color: rgb(31, 31, 31); background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; vertical-align: baseline; white-space-collapse: preserve;&quot;&gt;&lt;i style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;b&gt;OPEN&lt;/b&gt;&lt;/font&gt;&lt;/i&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span id=&quot;docs-internal-guid-98620f29-7fff-6ddf-136e-cdaa41ea3ac9&quot;&gt;&lt;span style=&quot;font-family: &amp;quot;Google Sans Text&amp;quot;, sans-serif; color: rgb(31, 31, 31); background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; vertical-align: baseline; white-space-collapse: preserve;&quot;&gt;&lt;span id=&quot;docs-internal-guid-47160222-7fff-940b-a501-b70b2eccdbd3&quot;&gt;&lt;span style=&quot;background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; vertical-align: baseline;&quot;&gt;&lt;i&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;b&gt;CLOSED&lt;/b&gt;&lt;/font&gt;&lt;/i&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span id=&quot;docs-internal-guid-98620f29-7fff-6ddf-136e-cdaa41ea3ac9&quot;&gt;&lt;span style=&quot;font-family: &amp;quot;Google Sans Text&amp;quot;, sans-serif; color: rgb(31, 31, 31); background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; vertical-align: baseline; white-space-collapse: preserve;&quot;&gt;&lt;span id=&quot;docs-internal-guid-47160222-7fff-940b-a501-b70b2eccdbd3&quot; style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; vertical-align: baseline;&quot;&gt;&lt;span id=&quot;docs-internal-guid-a4042b05-7fff-ad05-3a99-680bfe10109c&quot; style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; vertical-align: baseline;&quot;&gt;&lt;i style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;&lt;b&gt;HALF-OPEN&lt;/b&gt;&lt;/font&gt;&lt;/i&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="590" y="311" width="140" height="56" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
