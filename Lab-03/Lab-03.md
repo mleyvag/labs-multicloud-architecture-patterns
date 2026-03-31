@@ -57,6 +57,17 @@ gcloud services enable \
   artifactregistry.googleapis.com \
   cloudbuild.googleapis.com
 ```
+6. Asignar el rol de Cloud Build Builder a la cuenta de Servicio de Compute
+
+```bash
+PROJECT_ID=$(gcloud config get-value project)
+
+PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member=serviceAccount:$PROJECT_NUMBER-compute@developer.gserviceaccount.com \
+    --role=roles/cloudbuild.builds.builder
+```
 
 ### FASE 2: Crear el Bus de Eventos
 Cree el tópico de Pub/Sub donde llegarán los mensajes de las nuevas compras:
@@ -95,7 +106,7 @@ functions.cloudEvent('helloPubSub', (cloudEvent) => {
 6. Luego de guardar los archivos, clic en "Abrir Terminal"
 7. Ejecutar el siguiente comando para desplegar la función:
 ```bash
-gcloud functions deploy procesador-ordenes --gen2 --runtime=nodejs22 --region=us-central1 --source=. --entry-point=helloPubSub --trigger-topic=procesar-cobro --allow-unauthenticated
+gcloud functions deploy procesar-cobro --gen2 --runtime=nodejs22 --region=us-central1 --source=. --entry-point=helloPubSub --trigger-topic=ordenes-compra --allow-unauthenticated
 ```
 8. Luego confirmar con la tecla "y"
 
