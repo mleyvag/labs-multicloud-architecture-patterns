@@ -1,201 +1,274 @@
-# MOD3-LAB3: Arquitectura Orientada a Eventos en Google Cloud
+# MOD3-LAB3: Arquitectura Orientada a Eventos en GCP
 **Instructor:** Miguel Leyva
 
 ---
 
-## 1. Objetivo, alcance
+## 1. Objetivo y Alcance
+
 **Objetivo**
-* El objetivo de este laboratorio es implementar una arquitectura desacoplada utilizando el patrón de diseño Publisher/Subscriber (Pub/Sub) en Google Cloud Platform.
-* El estudiante configurará un sistema de mensajería asíncrona donde un evento disparado manualmente activa una función sin servidor.
+* Implementar una arquitectura desacoplada completa (End-to-End) en Google Cloud Platform.
+* Aprender a desplegar infraestructura mediante línea de comandos (`gcloud` CLI) en Cloud Shell.
+* Comprender y solucionar desafíos de seguridad e identidad (IAM) en arquitecturas modernas.
 
 **Qué aprenderá el alumno**
-* Crear y gestionar Tópicos y Suscripciones en Google Cloud Pub/Sub.
-* Desplegar lógica de negocio en Cloud Functions (2nd Gen).
-* Implementar Eventarc para conectar servicios de forma asíncrona.
-* Monitorear la ejecución de eventos mediante Cloud Logging.
+* Desplegar un **Frontend Web** interactivo en contenedores usando **Cloud Run**.
+* Configurar un bus de eventos robusto usando **Cloud Pub/Sub**.
+* Escribir y desplegar múltiples **Microservicios (Cloud Functions 2nd Gen)** trabajando en paralelo mediante el patrón Fan-Out.
 
----
-
-## 2. Prerrequisitos y herramientas
+### 2. Prerrequisitos y herramientas
 * Una cuenta activa de Google Cloud Platform (GCP).
-* Un proyecto de GCP seleccionado con facturación (Billing) habilitada.
-* Permisos de rol Owner o Editor sobre el proyecto.
+* Un proyecto de GCP creado y seleccionado con facturación (Billing) habilitada.
+* Permisos de rol de Propietario (Owner) o Editor sobre el proyecto para habilitar APIs y crear recursos.
+* Navegador web actualizado (se recomienda Google Chrome).
+* Conocimientos básicos de lectura de código en JavaScript y uso de la terminal de comandos.
 
 ---
 
-## 3. El Problema
+## 3. El problema
 
-Usted es el Arquitecto de Soluciones para "ShopUTEC", una plataforma de comercio electrónico en crecimiento. Actualmente, el sistema procesa las órdenes de compra de manera monolítica.
-* Cuando un cliente hace clic en "Comprar", el sistema web intenta cobrar, actualizar el inventario y enviar un correo de confirmación en una sola secuencia síncrona.
-* Si el servicio de correo falla, la transacción completa se cancela, causando pérdida de ventas y una mala experiencia de usuario.
+En "ShopUTEC", cuando un cliente compra, el sistema web intenta cobrar y enviar un correo en la misma secuencia. Si el servidor de correos falla, la transacción colapsa, la pantalla del usuario muestra un error (Timeout) y se pierden ventas.
 
-### La Solución
-Implementar una arquitectura Event-Driven. La web publicará un mensaje "Nueva Orden" en un bus de eventos y un microservicio independiente procesará la orden en segundo plano.
+![ASIS](Img-1.png)
 
----
+## 4. La Solución
+La web (Cloud Run) actuará solo como **Publicador**, enviando un mensaje de "Nueva Orden" al bus de eventos (Pub/Sub) y respondiendo inmediatamente al usuario con un mensaje de éxito. Dos microservicios independientes (Cloud Functions) actuarán como **Consumidores**, escuchando el bus y procesando el cobro y el correo en segundo plano de forma segura.
 
-## 4. Arquitectura y decisiones de diseño
-### Descripción
-La arquitectura consta de tres componentes principales desacoplados por un bus de mensajes.
-* **Publisher (Simulado):** La consola de GCP actuará como el frontend, enviando un payload JSON.
-* **Broker (Pub/Sub):** Actúa como intermediario. Recibe mensajes y garantiza su entrega.
-    * **Decisión de Diseño:** Se elige Pub/Sub por ser un servicio global, serverless y capaz de manejar picos de tráfico sin aprovisionamiento previo.
-* **Consumer (Cloud Functions):** Función `procesador-ordenes`.
-    * **Decisión de Diseño:** Se utiliza FaaS (Function as a Service) para pagar solo por ejecución, ideal para cargas de trabajo basadas en eventos esporádicos.
+![TOBE](Img-2.png)
 
 ---
 
-## 5. Laboratorio guiado (Paso a paso)
-### FASE 1: Preparación del Entorno (APIs)
-1. Ingrese a la consola: https://console.cloud.google.com/
-2. En la barra de búsqueda superior, escriba: Cloud Resource Manager API.
-3. Haga clic en **Habilitar** (Enable) si no está activa.
-4. Repita el proceso para las siguientes APIs:
-    * Cloud Pub/Sub API
-    * Cloud Functions API
-    * Eventarc API
-    * Artifact Registry API
+## 5. Laboratorio guiado
 
-### FASE 2: Crear el Canal de Mensajería (Pub/Sub)
-1. En el menú de navegación, vaya a **Pub/Sub** > **Temas** (Topics).
-2. Haga clic en el botón superior **CREAR TEMA** (CREATE TOPIC).
-3. Complete los campos:
-    * **ID del tema:** `ordenes-compra`
-    * **Agregar una suscripción predeterminada:** [ ] Desmarcar.
-    * **Usar un esquema:** [ ] Desmarcar.
-4. Haga clic en **CREAR**.
+### FASE 1: Preparar el ambiente
 
-### FASE 3: Desplegar el Procesador (Cloud Function)
-1. Busque y seleccione el servicio **Cloud Functions**.
-2. Haga clic en **CREAR FUNCIÓN**.
-3. **Sección Configuración:**
-    * **Entorno:** Seleccione **2nd gen**.
-    * **Nombre de la función:** `procesador-ordenes`.
-    * **Región:** `us-central1`.
-4. **Sección Activador (Trigger):**
-    * Haga clic para editar el activador (por defecto HTTPS).
-    * Seleccione tipo: **Cloud Pub/Sub**.
-    * En "Seleccionar un tema", elija: `projects/.../topics/ordenes-compra`.
-    * Haga clic en **GUARDAR EVENTO**.
-5. Haga clic en **SIGUIENTE**.
+1. Ingrese a la consola de Google Cloud: https://console.cloud.google.com/
+2. Asegúrese de tener un proyecto seleccionado.
+3. Haga clic en el ícono de **Activar Cloud Shell** (`>_`) en la esquina superior derecha.
+4. Luego clic en **Autorizar**
+5. En la terminal que aparece en la parte inferior, ejecute el siguiente comando para habilitar todas las herramientas necesarias:
 
-### FASE 4: Codificación
-1. **Configuración del Runtime:**
-    * **Tiempo de ejecución:** Node.js 20.
-    * **Punto de entrada:** `helloPubSub`.
-2. **Código Fuente (index.js):** Reemplace todo el contenido con el siguiente código:
-
-```javascript
-const functions = require('@google-cloud/functions-framework');
-
-functions.cloudEvent('helloPubSub', (cloudEvent) => {
-  // El mensaje real viene codificado en base64
-  const base64String = cloudEvent.data.message.data;
-  // Decodificamos el mensaje a texto plano
-  const jsonString = Buffer.from(base64String, 'base64').toString();
-  
-  console.log(`⚡ EVENTO RECIBIDO!`);
-  console.log(`📦 ID del Mensaje: ${cloudEvent.id}`);
-  
-  try {
-      const orden = JSON.parse(jsonString);
-      console.log(`✅ Orden Procesada para cliente: ${orden.cliente}`);
-      console.log(`💰 Total de la orden: $${orden.total}`);
-  } catch (e) {
-      console.log("⚠️ Mensaje recibido (No JSON): " + jsonString);
-  }
-});
+```bash
+gcloud services enable \
+  cloudresourcemanager.googleapis.com \
+  pubsub.googleapis.com \
+  cloudfunctions.googleapis.com \
+  eventarc.googleapis.com \
+  run.googleapis.com \
+  artifactregistry.googleapis.com \
+  cloudbuild.googleapis.com
 ```
 
-3. Haga clic en **IMPLEMENTAR** (DEPLOY). Espere unos minutos hasta ver el check verde.
+### FASE 2: Crear el Bus de Eventos
+Cree el tópico de Pub/Sub donde llegarán los mensajes de las nuevas compras:
+
+```bash
+gcloud pubsub topics create ordenes-compra
+```
+
+### FASE 3: Desplegar Cloud Run Function "Procesar Cobro"
+
+1. En la terminal copiamos el siguiente comando:
+```bash
+mkdir ~/procesar-cobro && cd ~/procesar-cobro
+```
+2. Clic en **Abrir editor** y luego se abrira la interfaz de VSCode
+3. Dentro del folder "procesar-cobro", crear el archivo index.js
+4. Pegar el siguiente código en el archivo creado:
+```javascript
+const functions = require('@google-cloud/functions-framework');
+functions.cloudEvent('helloPubSub', (cloudEvent) => {
+  const data = Buffer.from(cloudEvent.data.message.data, 'base64').toString();
+  const orden = JSON.parse(data);
+  console.log(`[CORE] Pago de $${orden.total} procesado con éxito para la orden ${orden.id_orden}. Cliente: ${orden.cliente}`);
+});
+```
+5. Crear el archivo package.json a la altura del archivo index.js y pegar el siguiente código:
+```javascript
+{
+  "name": "core",
+  "main": "index.js",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.0.0"
+  }
+}
+```
+6. Luego de guardar los archivos, clic en "Abrir Terminal"
+7. Ejecutar el siguiente comando para desplegar la función:
+```bash
+gcloud functions deploy procesador-ordenes --gen2 --runtime=nodejs22 --region=us-central1 --source=. --entry-point=helloPubSub --trigger-topic=procesar-cobro --allow-unauthenticated
+```
+8. Luego confirmar con la tecla "y"
+
+### FASE 4: Desplegar Cloud Run Function "Notificador Email"
+
+1. En la terminal copiamos el siguiente comando:
+```bash
+mkdir ~/notificador-email && cd ~/notificador-email
+```
+2. Clic en **Abrir editor** y luego se abrira la interfaz de VSCode
+3. Dentro del folder "notificador-email", crear el archivo index.js
+4. Pegar el siguiente código en el archivo creado:
+```javascript
+const functions = require('@google-cloud/functions-framework');
+functions.cloudEvent('helloPubSub', (cloudEvent) => {
+  const data = Buffer.from(cloudEvent.data.message.data, 'base64').toString();
+  const orden = JSON.parse(data);
+  console.log(`[EMAIL] Conectando al servidor SMTP... Correo de confirmación enviado a: ${orden.email}`);
+});
+```
+5. Crear el archivo package.json a la altura del archivo index.js y pegar el siguiente código:
+```javascript
+{
+  "name": "email",
+  "main": "index.js",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.0.0"
+  }
+}
+```
+6. Luego de guardar los archivos, clic en "Abrir Terminal"
+7. Ejecutar el siguiente comando para desplegar la función:
+```bash
+gcloud functions deploy notificador-email --gen2 --runtime=nodejs22 --region=us-central1 --source=. --entry-point=helloPubSub --trigger-topic=ordenes-compra --allow-unauthenticated
+```
+8. Luego confirmar con la tecla "y"
+
+### FASE 5: Desplegar Cloud Run Function "WebApp Publisher"
+
+1. En la terminal copiamos el siguiente comando:
+```bash
+mkdir ~/webapp-publisher && cd ~/webapp-publisher
+```
+2. Clic en **Abrir editor** y luego se abrira la interfaz de VSCode
+3. Dentro del folder "notificador-email", crear el archivo index.js
+4. Pegar el siguiente código en el archivo creado:
+```javascript
+const express = require('express');
+const { PubSub } = require('@google-cloud/pubsub');
+
+const app = express();
+const pubsub = new PubSub();
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/', (req, res) => {
+  res.send(`
+    <html>
+      <body style="font-family: Arial; padding: 50px; background: #f0f2f5;">
+        <div style="background: white; padding: 30px; border-radius: 10px; max-width: 400px; margin: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+          <h2 style="color: #333;">🛒 ShopUTEC Checkout</h2>
+          <form action="/comprar" method="POST">
+            <input type="hidden" name="id_orden" value="ORD-${Math.floor(Math.random()*10000)}">
+            <label>Nombre del Cliente:</label><br>
+            <input type="text" name="cliente" style="width:100%; padding:8px; margin: 8px 0;" required><br>
+            <label>Correo Electrónico:</label><br>
+            <input type="email" name="email" style="width:100%; padding:8px; margin: 8px 0;" required><br>
+            <label>Monto a Pagar ($):</label><br>
+            <input type="number" name="total" value="1500" style="width:100%; padding:8px; margin: 8px 0;"><br><br>
+            <button type="submit" style="width:100%; padding:12px; background:#0056b3; color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;">Confirmar Compra</button>
+          </form>
+        </div>
+      </body>
+    </html>
+  `);
+});
+
+app.post('/comprar', async (req, res) => {
+  try {
+    const data = Buffer.from(JSON.stringify(req.body));
+    await pubsub.topic('ordenes-compra').publishMessage({ data });
+    res.send(`
+      <div style="font-family: Arial; text-align: center; padding: 50px;">
+        <h1 style="color: #28a745;">✅ ¡Compra Exitosa!</h1>
+        <p>Tu orden <b>${req.body.id_orden}</b> ha sido recibida y está siendo procesada.</p>
+        <a href="/" style="text-decoration: none; color: #0056b3;">← Realizar otra compra</a>
+      </div>
+    `);
+  } catch (error) {
+    res.status(500).send(`Error publicando el mensaje: ${error.message}`);
+  }
+});
+
+app.listen(8080, () => console.log('Servidor web iniciado'));
+```
+5. Crear el archivo package.json a la altura del archivo index.js y pegar el siguiente código:
+```javascript
+{
+  "name": "webapp",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.18.2",
+    "@google-cloud/pubsub": "^4.0.0"
+  }
+}
+```
+6. Luego de guardar los archivos, clic en "Abrir Terminal"
+7. Ejecutar el siguiente comando para desplegar la función:
+```bash
+gcloud run deploy webapp-publisher --source=. --region=us-central1 --allow-unauthenticated --quiet
+```
+8. Luego confirmar con la tecla "y"
+
+### FASE 6: Seguridad y Permisos (IAM)
+
+Por defecto, Cloud Run no tiene permisos para escribir en Pub/Sub. Debemos otorgarle a la "Cuenta de Servicio" (identidad robótica del contenedor) el rol de publicador para evitar errores de acceso (`PERMISSION_DENIED`).
+
+1. Ejecute este bloque de comandos para otorgar el acceso necesario:
+```bash
+PROJECT_ID=$(gcloud config get-value project)
+PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(projectNumber)")
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+  --role="roles/pubsub.publisher"
+```
+*(Espere aproximadamente 30 segundos tras ejecutar este comando para que los permisos se propaguen en la nube).*
 
 ---
 
 ## 6. Pruebas y validación
-### Pasos de Validación
-1. Vaya a **Pub/Sub** > **Temas**.
-2. Haga clic sobre el ID `ordenes-compra`.
-3. Vaya a la pestaña **MENSAJES** > **PUBLICAR MENSAJE**.
-4. En el cuerpo del mensaje, ingrese el siguiente JSON:
 
-```json
-{
-  "id_orden": "ORD-5599",
-  "cliente": "Estudiante UTEC",
-  "items": ["Laptop", "Mouse"],
-  "total": 1500
-}
+El sistema ya está completamente operativo. Para probarlo:
+
+**1. Usar el Frontend:**
+* En su terminal, busque la URL que generó Cloud Run (se parece a `https://webapp-publisher-xxxxx-uc.a.run.app`).
+* Haga clic en ella para abrirla en su navegador.
+* Llene el formulario de compra con datos de prueba y haga clic en **Confirmar Compra**. Debería ver la pantalla verde de éxito de forma inmediata.
+
+**2. Validar el Backend (Logs):**
+* Vaya a la consola gráfica de GCP y busque el servicio **Cloud Run**.
+* Haga clic en `procesar-cobro` y luego en la pestaña **Registros** (Logs). Verá que la orden fue cobrada.
+* Regrese, haga clic en `notificador-email` y revise sus **Registros**. Verá que el correo fue enviado en paralelo y exactamente al mismo tiempo.
+
+**¡Felicidades!** Ha construido un sistema asíncrono, tolerante a fallos y altamente escalable.
+
+---
+
+## 7. Laboratorio propuesto
+
+Finalice con el ultimo subscriber "Gestor Inventario":
+
+**Instrucciones del Reto:**
+1. Abra su terminal de Cloud Shell y cree un nuevo directorio llamado `gestor-inventario`:
+   `mkdir ~/gestor-inventario && cd ~/gestor-inventario`
+2. Utilizando el editor de Cloud Shell, cree los archivos `index.js` y `package.json` de manera similar a como lo hizo en las Fases 3 y 4.
+3. En el archivo `index.js`, modifique la lógica de la función para que imprima en consola un mensaje de logística, por ejemplo:
+   `console.log('[INVENTARIO] Separando stock en almacén para la orden: ' + orden.id_orden);`
+4. Desde la terminal, despliegue la nueva Cloud Function con el nombre `gestor-inventario`. 
+   * **Pista clave:** Asegúrese de conectarla exactamente al mismo tópico utilizado anteriormente usando el parámetro `--trigger-topic=ordenes-compra`.
+5. **Validación Final:** Vaya a la URL de su WebApp (Frontend), realice una nueva compra y diríjase a los registros (Logs) en la consola de GCP. Confirme que ahora las **tres funciones** (`procesar-cobro`, `notificador-email` y `gestor-inventario`) se dispararon simultáneamente en paralelo procesando la misma orden.
+
+*(Nota: Al finalizar el laboratorio propuesto, recuerde agregar el comando `gcloud functions delete gestor-inventario --gen2 --region=us-central1 --quiet` a su lista de limpieza en la Sección 8).*
+
+---
+
+## 8. Limpieza de Recursos
+
+Para evitar cargos continuos en su facturación, elimine los recursos creados ejecutando estos comandos:
+
+```bash
+gcloud functions delete procesar-cobro --gen2 --region=us-central1 --quiet
+gcloud functions delete notificador-email --gen2 --region=us-central1 --quiet
+gcloud run services delete webapp-publisher --region=us-central1 --quiet
+gcloud functions delete gestor-inventario --region=us-central1 --quiet
+gcloud pubsub topics delete ordenes-compra --quiet
 ```
-
-5. Haga clic en **PUBLICAR**.
-
-### Resultado Esperado
-* Vaya a **Cloud Functions** > `procesador-ordenes` > pestaña **LOGS**.
-* Debería visualizar: `✅ Orden Procesada para cliente: Estudiante UTEC`.
-* Esto confirma que el flujo asíncrono funciona.
-
----
-
-## 7. Cambio de escenario (nuevos requerimientos)
-### Nuevos Requerimientos Funcionales
-* El departamento de Marketing ha solicitado una funcionalidad crítica: Detección de clientes VIP.
-* Cada vez que entra una orden mayor a $1000, se debe notificar a un sistema paralelo para enviar un cupón de descuento.
-
-### Impacto en la Arquitectura
-* En un sistema monolítico, tendríamos que editar el código principal, arriesgando la estabilidad del procesamiento de pagos.
-* En nuestra arquitectura Event-Driven, aplicaremos el patrón Fan-Out:
-    * No modificaremos la función `procesador-ordenes`.
-    * Agregaremos un nuevo suscriptor al mismo tema.
-* **Impacto de Costos:** Se duplicará el número de invocaciones de funciones por cada mensaje, pero no afectará la latencia del usuario final.
-
----
-
-## 8. Laboratorio propuesto (reto)
-### El Reto
-Implemente el requerimiento de Marketing sin interrumpir el servicio actual.
-
-### Instrucciones
-1. Cree una segunda Cloud Function llamada `marketing-vip`.
-2. Utilice el mismo trigger (Pub/Sub) apuntando al tema `ordenes-compra`.
-3. Modifique el código para incluir una condicional `if`:
-    * Si `total > 1000`: Imprimir `"🎯 CLIENTE VIP DETECTADO - ENVIAR CUPÓN"`.
-    * Si no: No hacer nada.
-4. Realice una prueba enviando un solo mensaje a Pub/Sub.
-
-### Resultado de éxito
-Al publicar un solo mensaje, deberá ver logs activos en ambas funciones simultáneamente.
-
----
-
-## 9. Preguntas, conclusiones y aprendizajes
-### Preguntas de Reflexión
-* **Resiliencia:** Si la función de `marketing-vip` falla por un error de sintaxis, ¿afecta esto a la función `procesador-ordenes`? *(R: No, son procesos aislados).*
-* **Idempotencia:** ¿Qué pasaría si Pub/Sub entrega el mismo mensaje dos veces por error de red? ¿Nuestro código está preparado para no cobrar doble?
-
-### Conclusiones
-* Hemos logrado desacoplar la generación del evento de su procesamiento.
-* La arquitectura permite agregar nuevas funcionalidades (Marketing) sin tocar el código existente (Open/Closed Principle).
-* Cloud Functions escala automáticamente a cero, optimizando costos cuando no hay ventas.
-
----
-
-## 10. Limpieza y consideraciones de costo
-### Pasos de Limpieza (Obligatorio)
-Para evitar cargos inesperados por almacenamiento de imágenes o recursos huérfanos:
-
-**Eliminar Funciones:**
-1. Servicio: **Cloud Functions**.
-2. Seleccione `procesador-ordenes` y `marketing-vip`.
-3. Clic en **ELIMINAR**.
-
-**Eliminar Tópico:**
-1. Servicio: **Pub/Sub** > **Temas**.
-2. Seleccione `ordenes-compra`.
-3. Clic en **ELIMINAR**.
-
-**Eliminar Imágenes de Contenedor:**
-1. Servicio: **Artifact Registry**.
-2. Seleccione los repositorios creados (ej. `us-central1-docker.pkg.dev...`).
-3. Elimine las imágenes dentro para liberar espacio de almacenamiento.
-
-**Estimación de costo:** Si deja estos recursos activos 24h sin tráfico, el costo es cercano a $0.00 USD gracias a la capa gratuita, pero el almacenamiento de Artifact Registry podría generar centavos a fin de mes.
