@@ -106,7 +106,7 @@ functions.cloudEvent('helloPubSub', (cloudEvent) => {
 6. Luego de guardar los archivos, clic en "Abrir Terminal"
 7. Ejecutar el siguiente comando para desplegar la función:
 ```bash
-gcloud functions deploy procesar-cobro --gen2 --runtime=nodejs22 --region=us-central1 --source=. --entry-point=helloPubSub --trigger-topic=ordenes-compra --allow-unauthenticated
+gcloud functions deploy procesar-cobro --gen2 --runtime=nodejs22 --region=us-central1 --source=. --entry-point=helloPubSub --trigger-topic=ordenes-compra
 ```
 8. Luego confirmar con la tecla "y"
 
@@ -140,7 +140,7 @@ functions.cloudEvent('helloPubSub', (cloudEvent) => {
 6. Luego de guardar los archivos, clic en "Abrir Terminal"
 7. Ejecutar el siguiente comando para desplegar la función:
 ```bash
-gcloud functions deploy notificador-email --gen2 --runtime=nodejs22 --region=us-central1 --source=. --entry-point=helloPubSub --trigger-topic=ordenes-compra --allow-unauthenticated
+gcloud functions deploy notificador-email --gen2 --runtime=nodejs22 --region=us-central1 --source=. --entry-point=helloPubSub --trigger-topic=ordenes-compra
 ```
 8. Luego confirmar con la tecla "y"
 
