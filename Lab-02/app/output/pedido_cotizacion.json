@@ -1,0 +1,31 @@
+{
+  "cliente": "Constructora ABC",
+  "items": [
+    {
+      "sku": "TORNILLO-M6",
+      "cantidad": "100",
+      "precio": 12.5,
+      "subtotal": 1250.0
+    },
+    {
+      "sku": "TUERCA-M6",
+      "cantidad": "100",
+      "precio": 8.75,
+      "subtotal": 875.0
+    },
+    {
+      "sku": "DISCO-CORTE",
+      "cantidad": "10",
+      "precio": 2.8,
+      "subtotal": 28.0
+    },
+    {
+      "sku": "CASCO",
+      "cantidad": "5",
+      "precio": 22.0,
+      "subtotal": 110.0
+    }
+  ],
+  "igv": 407.34,
+  "total": 2670.34
+}
