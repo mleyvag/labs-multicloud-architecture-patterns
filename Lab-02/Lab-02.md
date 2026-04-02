@@ -1,4 +1,4 @@
-# 🧪 Lab 01 — De Docker Compose On-Premise a CaaS en Azure
+# 🧪 Lab 02 — De Docker Compose On-Premise a CaaS en Azure
 ### *Cotizador de insumos: del servidor local al cloud sin tocar la lógica*
 
 **Nivel:** Intermedio | **Duración:** 60 min | **Plataforma:** Azure + Docker
