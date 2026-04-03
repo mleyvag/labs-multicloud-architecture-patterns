@@ -1,4 +1,4 @@
-# MOD3-LABN1: Lab 02 — De Docker Compose On-Premise a CaaS en Azure
+# MOD3-LAB02: De Docker Compose On-Premise a CaaS en Azure
 **Instructor:** Miguel Leyva
 
 ---
